@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "sheet-sql"
+version = "0.1.0"
+description = "SQL for Google Sheets"
+authors = ["Andy Huynh <andy.huynh312@gmail.com>"]
+readme = "README.md"
+repository = "github.com/andyh1203/sheet-sql"
+packages = [
+    { include = "sheetsql", from = "src" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+requests = "^2.24.0"
+gspread = "^3.6.0"
+regex = "^2020.6.8"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^3.8.3"
+black = "^19.10b0"
+pre-commit = "^2.5.1"
+mypy = "^0.780"
+invoke = "^1.4.1"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
