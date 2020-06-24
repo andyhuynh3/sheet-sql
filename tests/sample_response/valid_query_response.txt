@@ -1,0 +1,2 @@
+/*O_o*/
+google.visualization.Query.setResponse({"version":"0.6","reqId":"0","status":"ok","sig":"1094779711","table":{"cols":[{"id":"sum-A","label":"sum test","type":"number"},{"id":"sum-B","label":"sum test2","type":"number"}],"rows":[{"c":[{"v":15.0},{"v":40.0}]}],"parsedNumHeaders":0}});

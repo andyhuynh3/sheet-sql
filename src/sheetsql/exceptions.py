@@ -4,3 +4,7 @@ class InvalidQueryException(Exception):
 
 class InvalidRowTypeException(Exception):
     pass
+
+
+class SpreadsheetNotFoundException(Exception):
+    pass

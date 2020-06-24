@@ -14,3 +14,8 @@ def build_dist(c):
 @task
 def publish_dist(c):
     c.run("poetry publish")
+
+
+@task
+def test(c):
+    c.run("pytest")

@@ -98,3 +98,9 @@ python_boilerplate/
 
 # VSCode
 .vscode
+
+# pyenv
+.python-version
+
+# nox
+.nox

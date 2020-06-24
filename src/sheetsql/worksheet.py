@@ -1,13 +1,17 @@
+from __future__ import annotations
+
 import re
 import string
-from typing import Any, Dict, Generator, List, Tuple
+from typing import TYPE_CHECKING, Any, Dict, Generator, List, Tuple
 
 import requests
 from gspread import Worksheet as GSpreadWorksheet
 
 from .exceptions import InvalidRowTypeException
-from .spreadsheet import Spreadsheet
 from .utils import TQ_BASE_URL, handle_tq_response
+
+if TYPE_CHECKING:
+    from .spreadsheet import Spreadsheet
 
 
 class Worksheet(GSpreadWorksheet):

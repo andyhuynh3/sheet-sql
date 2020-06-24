@@ -28,6 +28,4 @@ class Spreadsheet(GSpreadSpreadsheet):
 
     def get_worksheet(self, worksheet_name):
         """Get specific worksheet by name"""
-        if worksheet_name not in self._worksheets:
-            self._worksheets[worksheet_name] = self.worksheet(worksheet_name)
         return self._worksheets[worksheet_name]

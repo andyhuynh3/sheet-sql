@@ -21,6 +21,22 @@ black = "^19.10b0"
 pre-commit = "^2.5.1"
 mypy = "^0.780"
 invoke = "^1.4.1"
+mock = "^4.0.2"
+sphinx = "^3.1.1"
+nox = "^2020.5.24"
+coverage = {extras = ["toml"], version = "^5.1"}
+pytest-cov = "^2.10.0"
+
+[tool.coverage.paths]
+source = ["src", "*/site-packages"]
+
+[tool.coverage.run]
+branch = true
+source = ["sheetsql"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 70
 
 [build-system]
 requires = ["poetry>=0.12"]
