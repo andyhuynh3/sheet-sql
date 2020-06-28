@@ -1,10 +1,12 @@
+"""SQL for Google Sheets."""
+
 __version__ = "0.1.0"
+
+from typing import Any
 
 from .connection import GoogleSheetsConnection
 
 
-def connect(auth_type: str, **kwargs):
-    """Connect to Google Sheets via gspread by specifying either
-    oauth or service_account as the auth_type.
-    """
+def connect(auth_type: str, **kwargs: Any) -> GoogleSheetsConnection:
+    """Connect to Google Sheets via gspread oauth or service_account."""
     return GoogleSheetsConnection(auth_type, **kwargs)

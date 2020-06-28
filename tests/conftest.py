@@ -1,3 +1,5 @@
+"""Test setup."""
+
 import pytest
 
 from .mocks import MockGoogleSheetsConnection, MockSpreadsheet, MockWorksheet
@@ -20,25 +22,30 @@ spreadsheets_data = {
 
 
 @pytest.fixture
-def worksheet():
+def worksheet() -> MockWorksheet:
+    """Fixture for a mock Worksheet."""
     return MockWorksheet()
 
 
 @pytest.fixture
-def spreadsheet_1_worksheets():
+def spreadsheet_1_worksheets() -> dict:
+    """Fixture for spreadsheet_1_worksheets_data."""
     return spreadsheet_1_worksheets_data
 
 
 @pytest.fixture
-def spreadsheet_2_worksheets():
+def spreadsheet_2_worksheets() -> dict:
+    """Fixture for spreadsheet_2_worksheets_data."""
     return spreadsheet_2_worksheets_data
 
 
 @pytest.fixture
-def spreadsheets():
+def spreadsheets() -> dict:
+    """Fixture for spreadsheets_data."""
     return spreadsheets_data
 
 
 @pytest.fixture
-def conn():
+def conn() -> MockGoogleSheetsConnection:
+    """Fixture for mock GoogleSheetsConnection."""
     return MockGoogleSheetsConnection(spreadsheets=spreadsheets_data)

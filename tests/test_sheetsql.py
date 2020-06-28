@@ -1,15 +1,23 @@
+"""sheetsql package tests."""
+
 from collections import OrderedDict
 
 import mock
 import pytest
 from gspread.exceptions import GSpreadException
+
 from sheetsql import connect
 from sheetsql.exceptions import InvalidQueryException
 from sheetsql.utils import handle_tq_response, parse_json_from_tq_response
 
+from .mocks import MockGoogleSheetsConnection, MockWorksheet
+
 
 class TestUtils:
-    def test_parse_json_from_tq_response(self):
+    """Utility functions tests."""
+
+    def test_parse_json_from_tq_response(self) -> None:
+        """Tt parses the JSON for the table query response."""
         with open("tests/sample_response/valid_query_response.txt") as f:
             response_text = f.read()
             json_data = parse_json_from_tq_response(response_text)
@@ -28,7 +36,8 @@ class TestUtils:
                 },
             }
 
-    def test_valid_handle_tq_response(self):
+    def test_valid_handle_tq_response(self) -> None:
+        """It handles a valid table query response correctly."""
         response = mock.Mock()
         with open("tests/sample_response/valid_query_response.txt") as f:
             type(response).text = mock.PropertyMock(return_value=f.read())
@@ -41,7 +50,8 @@ class TestUtils:
             "parsedNumHeaders": 0,
         }
 
-    def test_invalid_handle_tq_response(self):
+    def test_invalid_handle_tq_response(self) -> None:
+        """It handles an invalid table query response correctly."""
         response = mock.Mock()
         with open("tests/sample_response/invalid_query_response.txt") as f:
             type(response).text = mock.PropertyMock(return_value=f.read())
@@ -50,16 +60,27 @@ class TestUtils:
 
 
 class TestGoogleSheetsConnection:
-    def test_spreadsheets_property(self, conn, spreadsheets):
+    """GoogleSpreadSheetsConnection class tests."""
+
+    def test_spreadsheets_property(
+        self, conn: MockGoogleSheetsConnection, spreadsheets: dict
+    ) -> None:
+        """It returns the available spreadsheets."""
         assert set(conn.spreadsheets) == set(spreadsheets.values())
 
-    def test_get_spreadsheet(self, conn, spreadsheets):
+    def test_get_spreadsheet(
+        self, conn: MockGoogleSheetsConnection, spreadsheets: dict
+    ) -> None:
+        """It returns the correct spreadsheet."""
         assert conn.get_spreadsheet("spreadsheet_1") == spreadsheets["spreadsheet_1"]
         assert conn.get_spreadsheet("spreadsheet_2") == spreadsheets["spreadsheet_2"]
         with pytest.raises(KeyError):
             conn.get_spreadsheet("spreadsheet_3")
 
-    def test_getitem_dunder(self, conn, spreadsheets):
+    def test_getitem_dunder(
+        self, conn: MockGoogleSheetsConnection, spreadsheets: dict
+    ) -> None:
+        """It returns the correct spreadsheet via dictionary key access."""
         assert (
             conn["spreadsheet_1"]
             == conn.get_spreadsheet("spreadsheet_1")
@@ -73,16 +94,23 @@ class TestGoogleSheetsConnection:
         with pytest.raises(KeyError):
             conn["spreadsheet_3"]
 
-    def test_len_dunder(self, conn, spreadsheets):
-        return len(conn) == len(spreadsheets) == 2
+    def test_len_dunder(
+        self, conn: MockGoogleSheetsConnection, spreadsheets: dict
+    ) -> None:
+        """It returns the number of spreadsheets."""
+        assert len(conn) == len(spreadsheets) == 2
 
-    def test_conn_invalid_auth_type(self):
+    def test_conn_invalid_auth_type(self) -> None:
+        """It raises an exception for invalid auth types."""
         with pytest.raises(GSpreadException):
             connect("unsupported_auth")
 
     @mock.patch("src.sheetsql.connection.gspread.oauth")
     @mock.patch("src.sheetsql.connection.gspread.service_account")
-    def test_auth_called(self, mock_service_account, mock_gspread_oauth):
+    def test_auth_called(
+        self, mock_service_account: mock.Mock, mock_gspread_oauth: mock.Mock
+    ) -> None:
+        """It calls the gspread oauth and service_account methods."""
         mock_gspread_oauth.return_value = mock.MagicMock()
         mock_service_account.return_value = mock.MagicMock()
         connect("oauth")
@@ -92,15 +120,25 @@ class TestGoogleSheetsConnection:
 
 
 class TestSpreadsheet:
+    """Spreadsheet class tests."""
+
     def test_worksheets_property(
-        self, conn, spreadsheet_1_worksheets, spreadsheet_2_worksheets
-    ):
+        self,
+        conn: MockGoogleSheetsConnection,
+        spreadsheet_1_worksheets: dict,
+        spreadsheet_2_worksheets: dict,
+    ) -> None:
+        """It returns the worksheets in a given spreadsheet."""
         assert conn["spreadsheet_1"].worksheets == list(spreadsheet_1_worksheets.keys())
         assert conn["spreadsheet_2"].worksheets == list(spreadsheet_2_worksheets.keys())
 
     def test_get_worksheet(
-        self, conn, spreadsheet_1_worksheets, spreadsheet_2_worksheets
-    ):
+        self,
+        conn: MockGoogleSheetsConnection,
+        spreadsheet_1_worksheets: dict,
+        spreadsheet_2_worksheets: dict,
+    ) -> None:
+        """It returns the correct worksheet."""
         assert (
             conn["spreadsheet_1"].get_worksheet("worksheet_1")
             == spreadsheet_1_worksheets["worksheet_1"]
@@ -125,8 +163,12 @@ class TestSpreadsheet:
             conn["spreadsheet_1"].get_worksheet("worksheet_3")
 
     def test_getitem_dunder(
-        self, conn, spreadsheet_1_worksheets, spreadsheet_2_worksheets
-    ):
+        self,
+        conn: MockGoogleSheetsConnection,
+        spreadsheet_1_worksheets: dict,
+        spreadsheet_2_worksheets: dict,
+    ) -> None:
+        """It returns the correct worksheet via dictionary key access."""
         assert (
             conn["spreadsheet_1"]["worksheet_1"]
             == spreadsheet_1_worksheets["worksheet_1"]
@@ -150,23 +192,38 @@ class TestSpreadsheet:
         with pytest.raises(KeyError):
             conn["spreadsheet_1"]["worksheet_3"]
 
-    def test_len_dunder(self, conn, spreadsheet_1_worksheets, spreadsheet_2_worksheets):
+    def test_len_dunder(
+        self,
+        conn: MockGoogleSheetsConnection,
+        spreadsheet_1_worksheets: dict,
+        spreadsheet_2_worksheets: dict,
+    ) -> None:
+        """It returns the number of worksheets."""
         assert len(conn["spreadsheet_1"]) == len(spreadsheet_1_worksheets) == 2
         assert len(conn["spreadsheet_2"]) == len(spreadsheet_2_worksheets) == 3
 
 
 class TestWorksheet:
+    """Worksheet class tests."""
+
     @mock.patch("src.sheetsql.worksheet.GSpreadWorksheet.row_values")
-    def test_columns_property(self, mock_row_values, worksheet):
+    def test_columns_property(
+        self, mock_row_values: mock.Mock, worksheet: MockWorksheet
+    ) -> None:
+        """It returns the columns in the worksheet."""
         mock_row_values.return_value = ["test1", "test2", "test3"]
         assert worksheet.columns == ["test1", "test2", "test3"]
 
     @mock.patch("src.sheetsql.worksheet.GSpreadWorksheet.row_values")
-    def test_num_columns_property(self, mock_row_values, worksheet):
+    def test_num_columns_property(
+        self, mock_row_values: mock.Mock, worksheet: MockWorksheet
+    ) -> None:
+        """It returns the number of columns in the worksheet."""
         mock_row_values.return_value = ["test1", "test2", "test3"]
         assert worksheet.num_columns == 3
 
-    def test_default_row_type_property(self, worksheet):
+    def test_default_row_type_property(self, worksheet: MockWorksheet) -> None:
+        """It returns the default row type property."""
         assert worksheet.default_row_type == dict
         worksheet.default_row_type = list
         assert worksheet.default_row_type == list
@@ -174,7 +231,10 @@ class TestWorksheet:
         assert worksheet.default_row_type == tuple
 
     @mock.patch("src.sheetsql.worksheet.GSpreadWorksheet.row_values")
-    def test_column_label_id_map_property(self, mock_row_values, worksheet):
+    def test_column_label_id_map_property(
+        self, mock_row_values: mock.Mock, worksheet: MockWorksheet
+    ) -> None:
+        """It maps the column labels to ids."""
         mock_row_values.return_value = ["test1", "test2", "test3"]
         assert worksheet.column_label_id_map == {
             "test1": "A",
@@ -183,7 +243,8 @@ class TestWorksheet:
         }
 
     @mock.patch("requests.get")
-    def test_query(self, mock_request_get, worksheet):
+    def test_query(self, mock_request_get: mock.Mock, worksheet: MockWorksheet) -> None:
+        """It queries the worksheet and returns results."""
         response = mock.MagicMock()
         worksheet.spreadsheet = mock.Mock()
         worksheet._properties = {"sheetId": "patched"}

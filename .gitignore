@@ -104,3 +104,6 @@ python_boilerplate/
 
 # nox
 .nox
+
+#pytype
+.pytype
