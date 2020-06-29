@@ -4,22 +4,21 @@ from __future__ import annotations
 
 import re
 import string
-from typing import TYPE_CHECKING, Any, Dict, Generator, List, Tuple
+from typing import Any, Dict, Generator, List, Tuple
 
 import requests
 from gspread import Worksheet as GSpreadWorksheet
 
+from sheetsql import spreadsheet
+
 from .exceptions import InvalidRowTypeException
 from .utils import TQ_BASE_URL, handle_tq_response
-
-if TYPE_CHECKING:
-    from .spreadsheet import Spreadsheet
 
 
 class Worksheet(GSpreadWorksheet):
     """Class inheriting the gspread.Worksheet class to represent a worksheet."""
 
-    def __init__(self, spreadsheet: Spreadsheet, properties: dict) -> None:
+    def __init__(self, spreadsheet: spreadsheet.Spreadsheet, properties: dict) -> None:
         """Init method for Worksheet class."""
         super().__init__(spreadsheet, properties)
         self._default_row_type = dict
@@ -105,7 +104,7 @@ class Worksheet(GSpreadWorksheet):
 
     def count(self) -> int:
         """Get number of rows."""
-        count = [row for row in self.query("SELECT COUNT(*)", row_type=list)][0]
+        count = [row for row in self.query("SELECT COUNT(A)", row_type=list)][0]
         return count
 
     def __len__(self) -> int:

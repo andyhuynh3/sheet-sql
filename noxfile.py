@@ -8,7 +8,7 @@ import nox
 from nox.sessions import Session
 
 PYTHON = ["3.7", "3.8"]
-locations = "src", "tests", "noxfile.py"
+locations = "src", "tests", "noxfile.py", "docs/conf.py"
 nox.options.sessions = "lint", "safety", "mypy", "pytype", "tests"
 
 
@@ -117,3 +117,10 @@ def coverage(session: Session) -> None:
     install_with_constraints(session, "coverage[toml]", "codecov")
     session.run("coverage", "xml", "--fail-under=0")
     session.run("codecov", *session.posargs)
+
+
+@nox.session(python="3.7")
+def docs(session: Session) -> None:
+    """Build the documentation."""
+    install_with_constraints(session, "sphinx")
+    session.run("sphinx-build", "docs", "docs/_build")

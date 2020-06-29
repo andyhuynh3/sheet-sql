@@ -1,11 +1,13 @@
-# sheet-sql
+.. sheet-sql documentation master file, created by
+   sphinx-quickstart on Sun Jun 21 17:02:30 2020.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
 
-[![Build](https://github.com/andyh1203/sheet-sql/workflows/ci/badge.svg)](https://github.com/andyh1203/sheet-sql/actions?workflow=ci)
-[![Codecov](https://codecov.io/gh/andyh1203/sheet-sql/branch/master/graph/badge.svg)](https://codecov.io/gh/andyh1203/sheet-sql)
-[![PyPI](https://img.shields.io/pypi/v/sheet-sql.svg)](https://pypi.org/project/sheet-sql/)
+sheet-sql documentation
+=====================================
 
 sheet-sql allows for writing SQL-style queries to query data from Google Sheets.
-It makes use of Google's Table Query (tq) Language. See [here](https://developers.google.com/chart/interactive/docs/querylanguage) for more details.
+It makes use of Google's Table Query (tq) Language. See here_ for more details.
 
     >>> from sheetsql import connect
     >>> gs = connect("service_account")
@@ -48,8 +50,28 @@ It makes use of Google's Table Query (tq) Language. See [here](https://developer
 
 To install, run
 
+.. code-block:: shell
+
     pip install sheet-sql
 
-Alternatively, install with [poetry](https://python-poetry.org/)
+Alternatively, install with poetry_
+
+.. code-block:: shell
 
     poetry add sheet-sql
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+.. _here: https://developers.google.com/chart/interactive/docs/querylanguage
+.. _poetry: https://python-poetry.org/
+
+
+API Documentation
+-----------------
+
+.. toctree::
+    :maxdepth: 2
+
+    api
