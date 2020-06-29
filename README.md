@@ -3,6 +3,7 @@
 [![Build](https://github.com/andyh1203/sheet-sql/workflows/ci/badge.svg)](https://github.com/andyh1203/sheet-sql/actions?workflow=ci)
 [![Codecov](https://codecov.io/gh/andyh1203/sheet-sql/branch/master/graph/badge.svg)](https://codecov.io/gh/andyh1203/sheet-sql)
 [![PyPI](https://img.shields.io/pypi/v/sheet-sql.svg)](https://pypi.org/project/sheet-sql/)
+[![Read the Docs](https://readthedocs.org/projects/sheet-sql/badge/)](https://sheet-sql.readthedocs.io/)
 
 sheet-sql allows for writing SQL-style queries to query data from Google Sheets.
 It makes use of Google's Table Query (tq) Language. See [here](https://developers.google.com/chart/interactive/docs/querylanguage) for more details.

@@ -8,6 +8,7 @@ repository = "https://github.com/andyh1203/sheet-sql"
 packages = [
     { include = "sheetsql", from = "src" }
 ]
+documentation = "https://sheet-sql.readthedocs.io"
 
 [tool.poetry.dependencies]
 python = "^3.7"
