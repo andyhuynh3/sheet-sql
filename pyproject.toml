@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "SQL for Google Sheets"
 authors = ["Andy Huynh <andy.huynh312@gmail.com>"]
 readme = "README.md"
-repository = "github.com/andyh1203/sheet-sql"
+repository = "https://github.com/andyh1203/sheet-sql"
 packages = [
     { include = "sheetsql", from = "src" }
 ]
